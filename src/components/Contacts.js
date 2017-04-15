@@ -1,6 +1,7 @@
 import React from "react";
 
 import Contact from "./Contact";
+import {getContacts} from "../services/contactsService.js";
 
 export default class Contacts extends React.Component {
 	constructor( props ) {
@@ -11,14 +12,28 @@ export default class Contacts extends React.Component {
 		}
 	}
 
+	componentWillMount() {
+		this.setState({contacts: getContacts()});
+	}
+
 	render() {
 		const styles = this.getStyles();
+
+		const contacts = this.state.contacts.map(contact => (
+			<Contact
+				company={contact.company}
+				email={contact.email}
+				key={contact._id}
+				name={contact.name}
+				phone={contact.phone}
+			/>
+		));
 
 		return (
 			<div>
 				<h1>Contacts</h1>
 				<div style={ styles.contactsWrapper }>
-
+					{contacts}
 				</div>
 			</div>
 		);
